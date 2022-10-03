@@ -13,11 +13,12 @@ export default function PerguntasRenderizadas({ perguntas, setPerguntas, pergunt
     <>
       {perguntas.map((p, index) => (
         p.status === "fechada" ?
-          <PerguntaFechada corTexto={p.fonte} tracejado={p.tracejado} key={index} onClick={(() => mostrarPergunta(p))}>
-            <p>Pergunta {p.numero} </p><ion-icon name="play-outline"></ion-icon>
+          <PerguntaFechada key={index} corTexto={p.fonte} tracejado={p.tracejado} corIcone={p.corIcone} onClick={(() => mostrarPergunta(p))}>
+            <p>Pergunta {p.numero} </p><ion-icon name={p.icone}></ion-icon>
           </PerguntaFechada>
           :
           <ImprimePerguntaAbertaOuResposta 
+            index={index}
             pergunta={p} 
             perguntas={perguntas} 
             setPerguntas={setPerguntas} 
@@ -28,14 +29,14 @@ export default function PerguntasRenderizadas({ perguntas, setPerguntas, pergunt
   )
 }
 
-function ImprimePerguntaAbertaOuResposta({ pergunta, setPerguntas, perguntas, key, perguntasRespondidas, setPerguntasRespondidas}) {
+function ImprimePerguntaAbertaOuResposta({index, pergunta, setPerguntas, perguntas, key, perguntasRespondidas, setPerguntasRespondidas}) {
   return (
     <>
-      {pergunta.status === "aberta" ? <PerguntaAberta onClick={(() => mostrarResposta(pergunta, setPerguntas, perguntas))}>
+      {pergunta.status === "aberta" ? <PerguntaAberta key={index} onClick={(() => mostrarResposta(pergunta, setPerguntas, perguntas))}>
         <p>{pergunta.pergunta}</p><ion-icon name="refresh-outline"></ion-icon>
       </PerguntaAberta>
         :
-        <Resposta>{
+        <Resposta key={index}>{
           pergunta.resposta}
           <ContainerBotoes>
             <ButtonNaoLembrei onClick={()=>naoLembrei(pergunta, perguntas, setPerguntas, perguntasRespondidas, setPerguntasRespondidas)}>Não lembrei</ButtonNaoLembrei>
@@ -57,6 +58,8 @@ function naoLembrei(pergunta, perguntas, setPerguntas, perguntasRespondidas, set
   const novoArrayPerguntas = [...perguntas]
   novoArrayPerguntas[pergunta.numero - 1].status = "fechada"
   novoArrayPerguntas[pergunta.numero - 1].fonte = "#FF3030"
+  novoArrayPerguntas[pergunta.numero - 1].icone = "close-circle"
+  novoArrayPerguntas[pergunta.numero - 1].corIcone = "#FF3030"
   novoArrayPerguntas[pergunta.numero - 1].tracejado = true
   setPerguntas(novoArrayPerguntas)
   if(perguntasRespondidas!==perguntas.length){
@@ -69,6 +72,8 @@ function quaseLembrei(pergunta, perguntas, setPerguntas,perguntasRespondidas, se
   const novoArrayPerguntas = [...perguntas]
   novoArrayPerguntas[pergunta.numero - 1].status = "fechada"
   novoArrayPerguntas[pergunta.numero - 1].fonte = "#FF922E"
+  novoArrayPerguntas[pergunta.numero - 1].icone = "help-circle"
+  novoArrayPerguntas[pergunta.numero - 1].corIcone = "#FF922E"
   novoArrayPerguntas[pergunta.numero - 1].tracejado = true
   setPerguntas(novoArrayPerguntas)
   if(perguntasRespondidas!==perguntas.length){
@@ -81,6 +86,8 @@ function lembrei(pergunta, perguntas, setPerguntas, perguntasRespondidas, setPer
   const novoArrayPerguntas = [...perguntas]
   novoArrayPerguntas[pergunta.numero - 1].status = "fechada"
   novoArrayPerguntas[pergunta.numero - 1].fonte = "#2FBE34"
+  novoArrayPerguntas[pergunta.numero - 1].icone = "checkmark-circle"
+  novoArrayPerguntas[pergunta.numero - 1].corIcone = "#2FBE34"
   novoArrayPerguntas[pergunta.numero - 1].tracejado = true
   setPerguntas(novoArrayPerguntas)
   if(perguntasRespondidas!==perguntas.length){
@@ -115,6 +122,7 @@ const PerguntaFechada = styled.div`
   ion-icon{
     font-size: 30px;
     cursor: pointer;
+    color: ${(props)=>props.corIcone};
   }
 `
 const PerguntaAberta = styled.div`
