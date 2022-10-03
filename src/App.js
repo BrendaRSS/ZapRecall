@@ -8,7 +8,7 @@ import { useState } from "react"
 
 export default function App() {
     const [perguntas, setPerguntas]=useState(perguntasInfos)
-    const [desabilitado, setDesabilitado]=useState(false)
+    const [perguntasRespondidas, setPerguntasRespondidas]=useState(0)
 
     return (
         <ScreenContainer>
@@ -17,9 +17,9 @@ export default function App() {
             <PerguntasRenderizadas 
                 perguntas={perguntas} 
                 setPerguntas={setPerguntas}
-                desabilitado={desabilitado}
-                setDesabilitado={setDesabilitado}/>
-                <FooterConcluido/>
+                perguntasRespondidas={perguntasRespondidas}
+                setPerguntasRespondidas={setPerguntasRespondidas}/>
+                <FooterConcluido perguntasRespondidas={perguntasRespondidas}/>
         </ScreenContainer>
     )
 }

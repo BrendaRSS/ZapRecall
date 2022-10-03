@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-export default function FooterConcluido() {
+export default function FooterConcluido({perguntasRespondidas}) {
     return (
         <FooterConcluidos>
             <h3>
-                0/4 conluídos
+                {perguntasRespondidas}/8 conluídos
             </h3>
         </FooterConcluidos>
     )

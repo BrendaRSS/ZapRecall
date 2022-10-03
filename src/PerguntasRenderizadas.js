@@ -1,14 +1,12 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function PerguntasRenderizadas({ perguntas, setPerguntas, desabilitado, setDesabilitado }) {
-  const [perguntasRespondidas, setPerguntasRespondidas]=useState(0)
+export default function PerguntasRenderizadas({ perguntas, setPerguntas, perguntasRespondidas, setPerguntasRespondidas}) {
   
   function mostrarPergunta(p) {
     const novoArrayPerguntas = [...perguntas]
     novoArrayPerguntas[p.numero - 1].status = "aberta"
     setPerguntas(novoArrayPerguntas)
-    setDesabilitado(true)
   }
 
   return (
@@ -19,13 +17,18 @@ export default function PerguntasRenderizadas({ perguntas, setPerguntas, desabil
             <p>Pergunta {p.numero} </p><ion-icon name="play-outline"></ion-icon>
           </PerguntaFechada>
           :
-          <ImprimePerguntaAbertaOuResposta pergunta={p} perguntas={perguntas} setPerguntas={setPerguntas} />)
+          <ImprimePerguntaAbertaOuResposta 
+            pergunta={p} 
+            perguntas={perguntas} 
+            setPerguntas={setPerguntas} 
+            perguntasRespondidas={perguntasRespondidas} 
+            setPerguntasRespondidas={setPerguntasRespondidas}/>)
       )}
     </>
   )
 }
 
-function ImprimePerguntaAbertaOuResposta({ pergunta, setPerguntas, perguntas, key }) {
+function ImprimePerguntaAbertaOuResposta({ pergunta, setPerguntas, perguntas, key, perguntasRespondidas, setPerguntasRespondidas}) {
   return (
     <>
       {pergunta.status === "aberta" ? <PerguntaAberta onClick={(() => mostrarResposta(pergunta, setPerguntas, perguntas))}>
@@ -35,9 +38,9 @@ function ImprimePerguntaAbertaOuResposta({ pergunta, setPerguntas, perguntas, ke
         <Resposta>{
           pergunta.resposta}
           <ContainerBotoes>
-            <ButtonNaoLembrei onClick={()=>naoLembrei(pergunta, perguntas, setPerguntas)}>Não lembrei</ButtonNaoLembrei>
-            <QuaseLembrei onClick={()=>quaseLembrei(pergunta, perguntas, setPerguntas)}>Quase não lembrei</QuaseLembrei>
-            <Zap onClick={()=>lembrei(pergunta, perguntas, setPerguntas)}>Zap!</Zap>
+            <ButtonNaoLembrei onClick={()=>naoLembrei(pergunta, perguntas, setPerguntas, perguntasRespondidas, setPerguntasRespondidas)}>Não lembrei</ButtonNaoLembrei>
+            <QuaseLembrei onClick={()=>quaseLembrei(pergunta, perguntas, setPerguntas, perguntasRespondidas, setPerguntasRespondidas)}>Quase não lembrei</QuaseLembrei>
+            <Zap onClick={()=>lembrei(pergunta, perguntas, setPerguntas, perguntasRespondidas, setPerguntasRespondidas)}>Zap!</Zap>
           </ContainerBotoes>
         </Resposta>}
     </>
@@ -50,28 +53,40 @@ function mostrarResposta(pergunta, setPerguntas, perguntas) {
   setPerguntas(novoArrayPerguntas)
 }
 
-function naoLembrei(pergunta, perguntas, setPerguntas){
+function naoLembrei(pergunta, perguntas, setPerguntas, perguntasRespondidas, setPerguntasRespondidas){
   const novoArrayPerguntas = [...perguntas]
   novoArrayPerguntas[pergunta.numero - 1].status = "fechada"
   novoArrayPerguntas[pergunta.numero - 1].fonte = "#FF3030"
   novoArrayPerguntas[pergunta.numero - 1].tracejado = true
   setPerguntas(novoArrayPerguntas)
+  if(perguntasRespondidas!==perguntas.length){
+    let contador= perguntasRespondidas+1
+    setPerguntasRespondidas(contador)
+  }
 }
 
-function quaseLembrei(pergunta, perguntas, setPerguntas){
+function quaseLembrei(pergunta, perguntas, setPerguntas,perguntasRespondidas, setPerguntasRespondidas){
   const novoArrayPerguntas = [...perguntas]
   novoArrayPerguntas[pergunta.numero - 1].status = "fechada"
   novoArrayPerguntas[pergunta.numero - 1].fonte = "#FF922E"
   novoArrayPerguntas[pergunta.numero - 1].tracejado = true
   setPerguntas(novoArrayPerguntas)
+  if(perguntasRespondidas!==perguntas.length){
+    let contador= perguntasRespondidas+1
+    setPerguntasRespondidas(contador)
+  }
 }
 
-function lembrei(pergunta, perguntas, setPerguntas){
+function lembrei(pergunta, perguntas, setPerguntas, perguntasRespondidas, setPerguntasRespondidas){
   const novoArrayPerguntas = [...perguntas]
   novoArrayPerguntas[pergunta.numero - 1].status = "fechada"
   novoArrayPerguntas[pergunta.numero - 1].fonte = "#2FBE34"
   novoArrayPerguntas[pergunta.numero - 1].tracejado = true
   setPerguntas(novoArrayPerguntas)
+  if(perguntasRespondidas!==perguntas.length){
+    let contador= perguntasRespondidas+1
+    setPerguntasRespondidas(contador)
+  }
 }
 
 
