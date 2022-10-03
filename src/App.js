@@ -18,8 +18,9 @@ export default function App() {
                 perguntas={perguntas} 
                 setPerguntas={setPerguntas}
                 perguntasRespondidas={perguntasRespondidas}
-                setPerguntasRespondidas={setPerguntasRespondidas}/>
-                <FooterConcluido perguntasRespondidas={perguntasRespondidas}/>
+                setPerguntasRespondidas={setPerguntasRespondidas}
+            />
+            <FooterConcluido perguntasRespondidas={perguntasRespondidas}/>
         </ScreenContainer>
     )
 }
