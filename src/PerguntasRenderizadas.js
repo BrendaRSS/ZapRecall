@@ -15,11 +15,12 @@ export default function PerguntasRenderizadas({ perguntas, setPerguntas, pergunt
       {perguntas.map((p, index) => (
         p.status === "fechada" ?
           <PerguntaFechada
+            data-identifier="flashcard-index-item"
             key={index}
             corTexto={p.fonte} 
             tracejado={p.tracejado} 
             corIcone={p.corIcone} >
-            <p>Pergunta {p.numero} </p><ion-icon onClick={(() => mostrarPergunta(p))} name={p.icone}></ion-icon>
+            <p>Pergunta {p.numero} </p><ion-icon data-identifier="flashcard-show-btn" onClick={(() => mostrarPergunta(p))} name={p.icone}></ion-icon>
           </PerguntaFechada>
           :
           <ImprimePerguntaAbertaOuResposta
@@ -40,16 +41,16 @@ export default function PerguntasRenderizadas({ perguntas, setPerguntas, pergunt
 function ImprimePerguntaAbertaOuResposta({pergunta, setPerguntas, perguntas, perguntasRespondidas, setPerguntasRespondidas, arrayPerguntasRespondidas, setArrayPerguntasRespondidas}) {
   return (
     <>
-      {pergunta.status === "aberta" ? <PerguntaAberta>
-        <p>{pergunta.pergunta}</p><ion-icon onClick={(() => mostrarResposta(pergunta, setPerguntas, perguntas))} name="refresh-outline"></ion-icon>
+      {pergunta.status === "aberta" ? <PerguntaAberta data-identifier="flashcard-question">
+        <p>{pergunta.pergunta}</p><ion-icon data-identifier="flashcard-turn-btn" onClick={(() => mostrarResposta(pergunta, setPerguntas, perguntas))} name="refresh-outline"></ion-icon>
       </PerguntaAberta>
         :
-        <Resposta>{
+        <Resposta data-identifier="flashcard-answer">{
           pergunta.resposta}
           <ContainerBotoes>
-            <ButtonNaoLembrei onClick={()=>naoLembrei(pergunta, perguntas, setPerguntas, perguntasRespondidas, setPerguntasRespondidas, arrayPerguntasRespondidas, setArrayPerguntasRespondidas)}>Não lembrei</ButtonNaoLembrei>
-            <QuaseLembrei onClick={()=>quaseLembrei(pergunta, perguntas, setPerguntas, perguntasRespondidas, setPerguntasRespondidas, arrayPerguntasRespondidas, setArrayPerguntasRespondidas)}>Quase não lembrei</QuaseLembrei>
-            <Zap onClick={()=>lembrei(pergunta, perguntas, setPerguntas, perguntasRespondidas, setPerguntasRespondidas, arrayPerguntasRespondidas, setArrayPerguntasRespondidas)}>Zap!</Zap>
+            <ButtonNaoLembrei data-identifier="forgot-btn" onClick={()=>naoLembrei(pergunta, perguntas, setPerguntas, perguntasRespondidas, setPerguntasRespondidas, arrayPerguntasRespondidas, setArrayPerguntasRespondidas)}>Não lembrei</ButtonNaoLembrei>
+            <QuaseLembrei data-identifier="almost-forgot-btn" onClick={()=>quaseLembrei(pergunta, perguntas, setPerguntas, perguntasRespondidas, setPerguntasRespondidas, arrayPerguntasRespondidas, setArrayPerguntasRespondidas)}>Quase não lembrei</QuaseLembrei>
+            <Zap data-identifier="zap-btn" onClick={()=>lembrei(pergunta, perguntas, setPerguntas, perguntasRespondidas, setPerguntasRespondidas, arrayPerguntasRespondidas, setArrayPerguntasRespondidas)}>Zap!</Zap>
           </ContainerBotoes>
         </Resposta>}
     </>

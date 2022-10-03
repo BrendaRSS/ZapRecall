@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export default function FooterConcluido({perguntasRespondidas}) {
     return (
-        <FooterConcluidos>
+        <FooterConcluidos data-identifier="flashcard-counter">
             <h3>
                 {perguntasRespondidas}/8 conluídos
             </h3>
